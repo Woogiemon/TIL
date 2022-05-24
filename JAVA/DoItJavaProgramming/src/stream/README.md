@@ -1,6 +1,6 @@
 # 스트림(Stream)
 ___
-### 스트림이란?
+## 스트림이란?
 자료가 모여 있는 배열이나 컬렉션 또는 특정 범위 안에 있는 일련의 숫자를 처리하는 기능이 미리 구현되어 있다면 프로그램의 코드가 훨씬 간결해지고 일관성 있게 다룰 수 있다.  
 ex) 배열 요소를 특정 기준에 따라 정렬(sorting)하거나, 요소 중 특정 값은 제외하고 출력하는(filter) 기능  
 이렇게 여러 자료의 처리에 대한 기능을 구현해 놓은 클래스를 `스트림(Stream)`이라 한다.
@@ -23,12 +23,12 @@ Arrays.stream(arr).forEach(n -> System.out.println(n));
 
 <br>
 
-### 스트림 연산
+## 스트림 연산
 스트림 연산의 종류에는 크게 중간 연산과 최종 연산 두 가지가 있다.  
 중간 연산은 자료를 거르거나 변경하여 또 다른 자료를 내부적으로 생성한다.  
 최종 연산은 생성된 내부 자료를 소모해 가면서 연산을 수행한다. 따라서 최종 연산은 마지막에 한 번만 호출된다.  
 
-#### 중간연산(Intermediate operation) - filter(), map(), distinct()
+### 중간연산(Intermediate operation) - filter(), map(), distinct()
 filter() : 조건을 넣고 조건에 맞는 경우만 추출하는 경우에 사용
 ```
 sList.stream().filter(s -> s.length() >= 5).forEach(s -> System.out.println(s));
@@ -39,13 +39,13 @@ ex) mapToInt(), mapToLong(), mapToDouble() 등
 sList.stream().map(c -> c.getName()).forEach(s -> System.out.println(s));
 ```
 
-#### 최종 연산(Terminal operation) - forEach(), count(), sum(), reduce()
+### 최종 연산(Terminal operation) - forEach(), count(), sum(), reduce()
 forEach()는 앞에서 설명했듯이 요소를 하나씩 꺼내어 출력  
 통계용으로 사용되는 sum(), count()는 배열 요소의 합계를 구한다거나 개수를 출력하는 연산을 수행
 
 <br>
 
-#### Collection에서 스트림 생성하고 사용하기
+### Collection에서 스트림 생성하고 사용하기
 ```
 List<String> sList = new ArrayList<>();
 sList.add("L");
@@ -78,7 +78,7 @@ stream2.sorted().forEach(s -> System.out.println(s));
  
 <br>
 
-### 스트림의 특징
+## 스트림의 특징
 1. **자료의 대상과 관계없이 동일한 연산 수행한다.**
 2. **한 번 생성하고 사용한 스트림은 재사용할 수 없다.**
 3. **스트림의 연산은 기존 자료를 변경하지 않는다.**  
