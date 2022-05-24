@@ -26,10 +26,13 @@ public int factorial(int n) {
 예를 들어 n = 5 라면, `5 * 4 * 3 * 2 * 1` 이 실행되는 것이다.
 
 ### 재귀함수를 사용할 때 자주 마주하게 되는 에러
-1. StackOverflowError  
+####1. StackOverflowError  
 위에서 작성한 코드에서 `Base Case` 이 생략된다면?  
 n이 1일 경우에 1을 return 하면서 재귀함수를 탈출해야 하는데, 그렇지 못하고 0, -1, -2...  까지 무한대로 실행된다. 즉 호출한 함수가 종료되지 않은 채 새로운 함수를 무한대로 호출하면서 스택에 메모리가 계속 저장된다. 그러다가 스택 메모리에 더이상 가용 메모리가 없을 경우 `StackOverFlow`가 발생하게 된다.
-2. IndexOutOfBoundsException  
+
+
+
+####2. IndexOutOfBoundsException  
 리스트형 객체에서 선언되지 않은 요소를 get() 하는 경우에 발생한다.
 
 ### 재귀함수의 장단점
