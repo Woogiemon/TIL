@@ -52,17 +52,17 @@ n이 1일 경우에 1을 return 하면서 재귀함수를 탈출해야 하는데
 ```
 int[] arr1 = {11, 22, 33, 44, 55};
 for(int i : arr1) {
-    System.out.println(i);             // {11, 22, 33, 44, 55}
+    System.out.println(i);                  // {11, 22, 33, 44, 55}
 }
 
 int[] arr2 = Arrays.copyOf(arr1, 4);
 for(int i : arr2) {
-    System.out.println(i);             // {11, 22, 33, 44}
+    System.out.println(i);                  // {11, 22, 33, 44}
 }
 
 int[] arr3= Arrays.copyOfRange(arr1, 3, 4);
 for(int i : arr3) {
-    System.out.println(i);             // {44}
+    System.out.println(i);                   // {44}
 }
 ```
 
