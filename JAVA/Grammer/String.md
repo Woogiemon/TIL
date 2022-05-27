@@ -68,12 +68,76 @@ String[] strSplit = str.split("-", 2);
 System.out.println(arr[0]);                 // 가
 System.out.println(arr[1]);                 // 나-다-라
 ```
-___
+
+### StringTokenizer
+StringTokenizer 클래스는 문자열을 우리가 지정한 구분자로 쪼개주는 클래스다.
+이 때 쪼개어진 문자열을 `토큰(token)` 이라고 부른다.
+
+```
+import java.util.StringTokenizer;	// 사용 전 반드시 import 해줘야 한다.
+
+String str = "My name is JIN";
+StringTokenizer tokenizer = new StringTokenizer(str);
+System.out.println(str);
+System.out.println();
+
+System.out.println(tokenizer.countTokens());		// 4
+
+while (tokenizer.hasMoreTokens()) {
+    System.out.println(tokenizer.nextToken()); // My name is JIN 각각 출력
+}
+System.out.println(tokenizer.countTokens());		// 0
+```
+int countTokens()  
+: 남아있는 token의 개수를 출력한다.
+
+boolean hasMoreElements(), boolean hasMoreTokens()  
+: 현재 위치 뒤에 있는 문자열에서 하나 이상의 token을 사용할 수 있는 경우 true를, 아닌 경우 false를 반환한다.
+
+Object nextElement(), String nextToken()  
+: 다음의 token을 반환한다. 두 메서드는 같은 객체를 반환하지만 반환형이 다르다.
+
 
 ## replace() vs replaceAll()
+나중에 정규식 공부하게되면 아래애 matches와 같이 정리하기   
+
 [//]: # (https://jamesdreaming.tistory.com/85)
 
-___
+
 ## 문자열에 특정 문자를 포함하는지 검색하는 방법
 
+|   Method   | Description                                      |
+|:----------:|:-------------------------------------------------|
+| contains() | 대상 문자열에서 찾고자 하는 문자열이 포함되어있는지 여부를 알고 싶을 때         |
+| indexOf()  | 대상 문자열에서 찾고자 하는 문자의 index값을 찾고 싶을 때              |
+| matches()  | 대상 문자열에서 정규 표현식(한글, 영문자, 숫자 등)이 포함되어 있는지 알고 싶을 때 |
+
+### contains()
+```
+String s = "Hi My name is JW";
+
+if (s.contains("name")) {           // true
+    System.out.println("문자 포함");
+} else {
+    System.out.println('문자 미포함");
+} 
+```
+
+### indexOf()
+| Parameter                 | Description                                    |
+|:--------------------------|:-----------------------------------------------|
+| String str                | 대상 문자열에 매개변수로 주어지는 str 값이 있는지 검색               |
+| char ch                   | 대상 문자열에 매개변수로 주어지는 char 값이 있는지 검색              |
+| String str, int fromIndex | 대상 문자열에 매개변수로 주어지는 str 값이 있는지 fromIndex 부터 검색  |
+| char ch, int fromIndex    | 대상 문자열에 매개변수로 주어지는 char 값이 있는지 fromIndex 부터 검색 |
+
+```
+String s = "Hi My name is JW";
+System.out.println(s.indexOf("Hi"));         // 0
+System.out.println(s.indexOf("J"));          // 14
+System.out.println(s.indexOf("Hi", 10));     // -1 
+System.out.println(s.indexOf("J", 10));      // 14
+```
+
+### matches()
 [//]: # (https://coding-factory.tistory.com/534)
