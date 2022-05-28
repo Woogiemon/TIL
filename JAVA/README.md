@@ -1,2 +1,2 @@
 # Write Once, Run Anywhere🔥
-![img.png](img.png)
+![img.png](JAVAimg.png)
