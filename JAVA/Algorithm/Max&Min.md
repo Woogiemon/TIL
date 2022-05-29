@@ -17,10 +17,12 @@ System.out.println("Max : " + max);              // Max : 8
 반복문을 이용하여 변수 max에 지속적으로 새로운 값을 할당하는 방식이다.
 이는 전형적인 명령형 프로그래밍(Imperative Programming) 스타일을 따르고 있다.
 가장 고전적인 방법이지만, 가독성을 해칠 가능성이 높은 방식이라 피하는게 좋다.  
-`List.of` 메서드는 불변 리스트 생성을 위해서 Java9에 추가되었다. 
+`List.of` 메서드는 불변 리스트 생성을 위해서 Java9에 추가되었다.
 
 [//]: # ([참고][link2])
 [//]: # ([link2]: 나중에 컬렉션프레임워크할때 ㄱㄱ >> https://www.daleseo.com/java9-immutable-collections/)
+  
+<br>
 
 ### 2. Collections.max() & Collections.min()
 `Collection` 클래스의 `max()` 정적 메서드를 이용하면 간단하게 최댓값, 최솟값을 찾을 수 있다.
@@ -38,6 +40,8 @@ int max = nums.isEmpty() ? -1 : Collections.min(nums);
 System.out.println("Min : " + min);                      // Min : 0
 ```
 참고로 max() 와 min() 정적 메서드는 `리스트 타입`의 인자만 받기 때문에, 대상이 배열이라면 리스트로 변환을 한 후 호출해야 한다.
+
+<br> 
 
 ### 3. Stream#max() & Stream#min()
 Java8의 Stream API의 `max()` 메서드를 이용하여 함수형 프로그래밍(Functional Programming) 스타일로 최댓값을 구할 수 있다.
@@ -63,6 +67,8 @@ List<Integer> nums = List.of(2, 1, 3, 0, 8, 6);
 int min = nums.stream().min(Integer::compare).orElse(-1);
 System.out.println("Min : " + min);                     // Min : 0
 ```
+
+<br>
 
 ___
 ### `Reference`

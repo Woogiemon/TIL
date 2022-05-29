@@ -19,7 +19,10 @@ ___
 ## 7. 힙(Heap)
 ## 8. 그래프(Graph)
 
-## Reference
+<br>
+
+___
+### `Reference`
 [8 Common Data Structures every Programmer must know][link]
 
 [link]: https://towardsdatascience.com/8-common-data-structures-every-programmer-must-know-171acf6a1a42
