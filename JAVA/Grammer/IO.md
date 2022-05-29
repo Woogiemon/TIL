@@ -1,7 +1,5 @@
 # 콘솔 입출력(I/O)
-
 ___
-
 ## 출력(Output)
 
 1. System.out.print() : 출력하기
