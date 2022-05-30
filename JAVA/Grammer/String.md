@@ -171,14 +171,14 @@ String str = "abcd";
 char[] arr = str.toCharArray();                 // String -> char[]
 List<Character> list = new ArrayList<>();
 for(char each : arr) {                          // char[] -> List
-    list.add(arr);
+    list.add(each);
 }
 
 Collections.reverse(list);
 
 ListIterator li = list.listIterator();
 while(li.hasNext()) {
-    System.out.println(li.next());              // dcba
+    System.out.print(li.next());              // dcba
 }
 ```
 
