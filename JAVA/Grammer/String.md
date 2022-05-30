@@ -40,6 +40,9 @@ name3은 new 연산자를 이용해 String 객체를 새로 생성했기 때문�
 5. **toLowerCase()와 toUpperCase()**  
 toLowerCase() : 해당 문자열의 모든 문자를 `소문자`로 변환시켜 준다.  
 toUpperCase() : 해당 문자열의 모든 문자를 `대문자`로 변환시켜 준다.
+
+<br>
+
 ## 문자열 자르기(Split)
 ### String[] split(String regex)
 
@@ -96,12 +99,14 @@ boolean hasMoreElements(), boolean hasMoreTokens()
 Object nextElement(), String nextToken()  
 : 다음의 token을 반환한다. 두 메서드는 같은 객체를 반환하지만 반환형이 다르다.
 
+<br>
 
 ## replace() vs replaceAll()
 나중에 정규식 공부하게되면 아래애 matches와 같이 정리하기   
 
 [//]: # (https://jamesdreaming.tistory.com/85)
 
+<br>
 
 ## 문자열에 특정 문자를 포함하는지 검색하는 방법
 
@@ -140,3 +145,47 @@ System.out.println(s.indexOf("J", 10));      // 14
 
 ### matches()
 [//]: # (https://coding-factory.tistory.com/534)
+
+<br>
+
+## 문자열 뒤집기
+
+### 1. StringBuilder / StringBuffer 클래스 이용
+`reverse()` 메서드를 제공하는 StringBuilder / StringBuffer 클래스를 이용한다.  
+바꾸고 싶은 문자열을 인자로 받은 `StringBuilder / StringBuffer` 객체를 생성 후 reverse() 메서드를 사용한다.
+
+```
+String str = "abcd";
+
+StringBuilder sb = new StringBuilder(str);
+String reversedStr = sb.reverse().toString();
+
+System.out.println(reversedStr);                // dcba
+```
+
+### 2. List로 변환 후 Collections.reverse(list) 이용
+reverse() 메서드를 제공하는 Collections 클래스를 이용하기 위해 List<Character> 타입으로 변환 후 수행한다.
+```
+String str = "abcd";
+
+char[] arr = str.toCharArray();                 // String -> char[]
+List<Character> list = new ArrayList<>();
+for(char each : arr) {                          // char[] -> List
+    list.add(arr);
+}
+
+Collections.reverse(list);
+
+ListIterator li = list.listIterator();
+while(li.hasNext()) {
+    System.out.println(li.next());              // dcba
+}
+```
+
+<br>
+
+___
+### `Reference`
+[Iterator & ListIterator][link]
+
+[link]: http://www.tcpschool.com/java/java_collectionFramework_iterator
