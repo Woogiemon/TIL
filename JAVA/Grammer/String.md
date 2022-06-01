@@ -71,6 +71,17 @@ System.out.println(arr[0]);                 // 가
 System.out.println(arr[1]);                 // 나-다-라
 ```
 
+### ++ 문자열을 한 글자씩 자르는 방법
+```
+String str = "abcde";
+
+String[] strArray = str.split("");
+
+for (String s : strArray) {
+    System.out.println(s);                  // a b c d e 각각 출력
+}
+```
+
 ### StringTokenizer
 StringTokenizer 클래스는 문자열을 우리가 지정한 구분자로 쪼개주는 클래스다.
 이 때 쪼개어진 문자열을 `토큰(token)` 이라고 부른다.
