@@ -182,6 +182,21 @@ while(li.hasNext()) {
 }
 ```
 
+## String.valueOf() vs Object.toString()
+문자열 형변환의 종류에는 `String.valueOf()`와 `Object.toString()` 두 가지 메서드가 있다. 두 메서드 모두 `객체를 String 문자열 참조 자료형으로 형변환하는 역할`을 하고 있다.
+
+이 때, `객체가 null 값인 경우` Object.toString() 메서드는 NullPointerException(NPE)를 발생시키지만, String.valueOf() 메서드는 null을 반환한다.
+```
+String str = null;
+
+System.out,println(String.valueOf(str));    // "null" 반환
+
+System.out.println(str.toString());         // NPE 발생
+```
+이러한 차이점 때문에 valueOf() 메서드는 "null".equals(string) 형태로 다시 한번 체크를 해야한다.
+null로 인해 발생한 에러는 시간이 한참 지났을 때 혹은 타인의 소스인 경우 디버깅하기 어렵고 어떤 의미를 내포하고 있는지 판단하기가 어렵다.
+그래서 NPE를 방지하기 위해 toString() 메서드 보다는 `valueOf() 메서드`를 사용하는 것이 좋다.
+
 <br>
 
 ___
