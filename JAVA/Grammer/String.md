@@ -80,6 +80,12 @@ String[] strArray = str.split("");
 for (String s : strArray) {
     System.out.println(s);                  // a b c d e 각각 출력
 }
+
+char[] chars = str.toCharArray();
+
+for (char c : chars) {
+    System.out.println(c);                  // a b c d e 각각 출력
+}
 ```
 
 ### StringTokenizer
