@@ -36,7 +36,7 @@ Greedy Algorithm으로 동전의 개수를 헤아리는 일은, 우리가 일반
 >2. 최적 부분 구조(Optimal Substructure) : 문제에 대한 최종 해결 방법은 부분 문제에 대한 최적 문제 해결 방법으로 구성된다.
 
 이처럼 탐욕 알고리즘은 항상 최적의 결과를 도출하는 것은 아니지만, 어느 정도 최적에 근사한 값을 빠르게 도출할 수 있는 장점이 있다. 이 장점으로 인해 탐욕 알고리즘은 근사 알고리즘으로 사용할 수 있다.
-만약 Greedy Algorithm으로 해결할 수 없다면, Dynamic Programming(DP), 그래프 알고리즘 등으로 문제를 해결해보자.
+만약 Greedy Algorithm으로 해결할 수 없다면, `Dynamic Programming(DP)`, `그래프 알고리즘` 등으로 문제를 해결해보자.
 
 
 
