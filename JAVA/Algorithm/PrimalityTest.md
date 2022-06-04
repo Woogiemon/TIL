@@ -98,7 +98,7 @@ N 이하의 자연수 중에서 소수를 구하는 가장 대표적인 방법�
 
 이해가 되지 않는다면 아래의 그림을 보자.
 
-![](Sieve_of_Eratosthenes_animation.gif)
+![](png/Sieve_of_Eratosthenes_animation.gif)
 [#Wikipedia][link1]
 
 [link1]: https://ko.wikipedia.org/wiki/%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4#%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4%EB%A5%BC_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D_%EC%96%B8%EC%96%B4%EB%A1%9C_%EA%B5%AC%ED%98%84

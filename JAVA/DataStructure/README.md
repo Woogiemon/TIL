@@ -1,1 +1,1 @@
-![img.png](DataStructure.png)
+![img.png](png/DataStructure.png)

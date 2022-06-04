@@ -5,7 +5,7 @@ ___
 자료구조 Tree는 이름 그대로 나무의 형태를 가지고 있다. 그래프의 여러 구조 중 `단방향 그래프`의 한 구조로, 
 하나의 뿌리로부터 가지가 사방으로 뻗은 형태가 나무와 닮아 있다고 해서 트리 구조라 부른다.
 
-![](tree.png)
+![](png/tree.png)
 
 트리 구조는 `루트(Root)` 라는 하나의 꼭짓점 데이터를 시작으로, 여러 개의 데이터들을 `간선(edge)`으로 연결한다. 각 데이터를 `노드(Node)`라고 하며, 두 개의 노드가 상하 계층으로 연결이 된다면 부모 / 자식 관계를 가진다.
 위 그림에서 5는 3와 6의 `부모 노드(Parent Node)`이고, 3와 6는 5의 `자식 노드(Child Node)`이다. 19와 같이 자식이 없는 노드는 나무의 잎과 같다 하여 `리프 노드(Leaf Node)`라고 부른다.
@@ -36,7 +36,7 @@ ___
 ### 1. 전위 순회(preorder traverse)
 루트 노드 -> 왼쪽 노드 -> 오른쪽 노드
 
-![img.png](preorderTraverse.png)
+![img.png](png/preorderTraverse.png)
 
 ```
 public ArrayList<Integer> preorderTree(Node root, int depth, ArrayList<Integer> list) {
@@ -52,7 +52,7 @@ public ArrayList<Integer> preorderTree(Node root, int depth, ArrayList<Integer> 
 ### 2. 중위 순회(inorder traverse)
 왼쪽 노드 -> 루트 노드 -> 오른쪽 노드
 
-![img.png](inorderTraverse.png)
+![img.png](png/inorderTraverse.png)
 
 
 ```
@@ -70,7 +70,7 @@ public ArrayList<Integer> inorderTree(Node root, int depth, ArrayList<Integer> l
 ### 3. 후위 순회(postorder traverse)
 왼쪽 노드 -> 오른쪽 노드 -> 루트 노드
 
-![img.png](postorderTraverse.png)
+![img.png](png/postorderTraverse.png)
 
 ```
 public ArrayList<Integer> postorderTree(Node root, int depth, ArrayList<Integer> list) {
@@ -91,7 +91,7 @@ public ArrayList<Integer> postorderTree(Node root, int depth, ArrayList<Integer>
 이진 트리는 자식 노드가 최대 두 개인 노드들로 구성되어 있다. 이 두개의 노드는 왼쪽 또한, 이진 트리는 자료의 삽입과 삭제 방법에 따라 `정 이진 트리(Full binary tree)`, `완전 이진 트리(Complete binary tree)`, `포화 이진 트리(Perfect binary tree)` 등으로 나뉜다.
 
 
-![img_1.png](binaryTree.png)
+![img_1.png](png/binaryTree.png)
 
 - **정 이진트리(Full binary tree)**  
   각 내부 노드가 0개 혹은 2개의 자식 노드를 갖는 트리이다.
@@ -117,7 +117,10 @@ public ArrayList<Integer> postorderTree(Node root, int depth, ArrayList<Integer>
 - **변질 이진 트리(Degenerate binary tree)**  
 각 부모 노드가 오직 한 개의 자식 노드를 갖는 트리이다. 이는 성능 면에서 트리가 연결 리스트 데이터 구조처럼 동작하는 것을 의미한다.
 
+<br>
+
+___
+### `Reference`
 [Different Types of Binary Tree with colourful illustrations][binarytree]
 
 [binarytree]: https://towardsdatascience.com/5-types-of-binary-tree-with-cool-illustrations-9b335c430254
-
