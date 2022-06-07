@@ -1,6 +1,6 @@
 # 브라우저의 작동 원리(How The Browser Works)
 
-## Client-Server Architecture(2 Tier Architecture)
+## Client-Server Architecture (2 Tier Architecture)
 클라이언트 서버 아키텍처, 다른 말로는 2티어 아키텍처라고 한다.
 
 스마트폰에서 쇼핑몰 앱을 사용해 본 적이 있는가? 또한, 인터넷 연결 없이 쇼핑몰 앱을 실행시켜 본 적이 있는가?  
@@ -13,7 +13,7 @@
 이렇게 상품 정보들과 같은 리소스가 존재하는 곳과 리소스를 사용하는 앱을 분리시킨 것을 클라이언트-서버 아키텍처, 2티어 아키텍처라 한다.
 즉, 리소스를 사용하는 앱을 `클라이언트`, 리소스를 제공(serve)하는 곳을 `서버(Server)`라고 부른다.
 
-![img.png](img.png)
+![img.png](png/2%20Tier%20Architecture.png)
 **출처 : CodeStates**
 
 위의 그림을 보자. `상품 정보는 서버에서 다루고, 클라이언트는 단지 상품 정보를 조회할 뿐이다.`  
@@ -22,13 +22,31 @@
 <br>
 
 ### 3 Tier Architecture
-![img_2.png](img_2.png)  
-출처 : https://www.ibm.com/cloud/blog/four-architecture-choices-for-application-development
+![img_2.png](png/3%20Tier%20Architecture.png)  
+**출처 : https://www.ibm.com/cloud/blog/four-architecture-choices-for-application-development**
 
 일반적으로 서버는 리소스를 전달해주는 역할이다. 그래서 리소스를 전달해주는 공간을 별도로 마련해 두는데,
 이 공간을 `데이터베이스(Database)`라고 부른다. 이처럼 2티어 아키텍처에 데이터베이스가 추가된 형태를 3티어 아키텍처라 한다.
 
+## 클라이언트-서버 통신과 API
 
+![](png/Client&Server.png)  
+**출처 : CodeStates**
+
+카페를 예시로 들어보자. 클라이언트와 서버 간의 통신은 `요청(Request)과 응답(Response)`으로 구성된다.
+
+![](png/Protocol.png)  
+**출처 : CodeStates**
+
+클라이언트와 서버 간의 통신을 알아보려면, 그 전에 `프로토콜(Protocol)`이라는 개념을 이해해야 한다.
+프로토콜은 통신 규약, 즉 약속이다. 손님이 주문을 받는 사람에게 서로의 공통어가 아닌 언어로 주문할 수 없는 것처럼, 주문을 하기 위해서는 꼭 지켜야 할 약속이 있다.
+
+![](png/HTTPmessages.png)
+**출처 : CodeStates**
+
+웹 애플리케이션 아키텍처에서는 클라이언트와 서버가 서로 `HTTP`라는 프로토콜을 이용해 대화한다. HTTP를 이용해 주고받는 메세지를 `HTTP 메세지`라고 부른다.
+앱을 이용하거나, 키오스크를 이용하는 등 카페에서 주문할 수 있는 방법 등 이러한 방법들 하나하나를 프로토콜이라 한다.
+프로토콜은 각자의 프로토콜마다 지켜야 하는 약속이 있다. 
 
 
 <br>
