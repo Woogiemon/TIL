@@ -1,4 +1,5 @@
 # POJO(Plain Old Java Object)
+
 ![](png/SpringTriangle.png)
 
 이 그림은 POJO라는 것을 `IoC/DI, AOP, PSA`를 통해서 달성할 수 있다는 것을 의미한다.
