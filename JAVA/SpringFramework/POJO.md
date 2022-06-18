@@ -170,7 +170,7 @@ Java에서 클래스 간의 관계를 느슨하게 만드는 대표적인 방법
 
 이번에는 위 다이어그램을 코드로 표현해보자.
 
-![img.png](DI6.png)
+![img.png](png/DI6.png)
 
 MenuController 클래스는 생성자로 MenuService 인터페이스를 주입받았기 때문에 MenuService 인터페이스의 구현 클래스이면 어떤 클래스든 주입받을 수 있다.
 
@@ -181,7 +181,7 @@ MenuController 클래스는 생성자로 MenuService 인터페이스를 주입�
 
 이 new 키워드를 제거하기 위해서 어떻게 해야할까? 이 부분은 `Spring`에서 대신 해준다.
 
-![img.png](img.png)
+![img.png](png/DI7.png)
 
 (1)에 해당하는 코드는 모두 Spring에서 지원하는 API 코드다. 
 
@@ -204,6 +204,108 @@ Config 클래스에서 (3)과 같이 MenuController 객체 생성을 정의해�
 <br>
 
 ## AOP(Aspect Oriented Programming)
+AOP는 `관심 지향 프로그래밍` 정도로 해석할 수 있다. 그렇다면 이 관심(Aspect)을 지향하는 프로그래밍에서 관심은 무엇을 의미할까?
+
+
+### 공통 관심 사항과 핵심 관심 사항
+AOP에의 Aspect는 `애플리케이션에 필요한 기능 중 공통적으로 적용되는 공통 기능에 대한 관심(Cross-cutting concern)`과 관련이 있다.
+
+그리고 비즈니스 로직, 즉 애플리케이션의 주목적을 달성하기 위한 핵심 로직에 대한 관심사를 `핵심 관심 사항(Core concern)`이라고 한다.
+
+커피 주문을 위한 애플리케이션을 예로 들어보자. 카페의 주인이 고객에게 제공하는 커피 메뉴를 구성하기 위해 커피 종류를 등록하는 것과 고객이 커피를 주문하는 기능은 애플리케이션의 `핵심 관심 사항`이 된다.
+그리고 커피 주문 애플리케이션에 아무나 접속하지 못하도록 제한하는 애플리케이션 보안에 대한 부분은 애플리케이션 전반에 공통적으로 적용되는 기능이기 때문에 `공통 관심 사항`이 된다.
+
+![img.png](png/AOP1.png)
+
+위 그림을 보면 로깅, 보안, 트랜잭션과 같은 공통 관심 사항 기능들의 화살표가 애플리케이션의 핵심 관심 사항을 관통하고 있다. 즉, 공통 관심 사항의 기능들이 애플리케이션의 핵심 로직에 전반적으로 두루 사용된다는 의미다.
+그리고 공통 관심 사항이 핵심 관심 사항에 멀찌감치 떨어져 있음을 볼 수 있는데, 이는 공통 관심 사항이 핵심 관심 사항에서 분리되어 있다는 것을 의미한다.
+
+결국, AOP는 `애플리케이션의 핵심 업무 로직에서 벗어나 공통 기능 로직들을 분리하는 것`이라고 생각할 수 있다.
+
+### AOP가 필요한 이유
+그렇다면 애플리케이션의 핵심 로직에서 공통 기능을 분리하는 이유가 뭘까?
+- 코드의 간결성 유지
+- 코드의 재사용
+- 객체 지향 설계 원칙에 맞는 코드 구현
+
+상식적으로 애플리케이션의 핵심 로직에 공통적인 기능의 코드들이 여기 저기 보인다면 코드의 구성이 복잡해질 것이고, 그에 따라 버그가 발생할 가능성이 높아지고 유지 보수가 어려워지게 된다.
+그리고 만약 이런 공통 기능들에 수정이 필요하게 된다면 애플리케이션 전반에 적용되어 있는 공통 기능에 해당하는 코드를 일일히 수정해야 되는 문제가 발생할 수 있다.
+
+AOP가 적용되지 않은 코드와 적용된 코드를 비교해보자.
+
+```
+public class Example {
+    private Connection connection;
+
+    public void registerMember(Member member, Point point) throws SQLException {
+        connection.setAutoCommit(false); // (1)
+        try {
+            saveMember(member); // (2)
+            savePoint(point);   // (2)
+            
+            connection.commit(); // (3)
+        } catch (SQLException e) {
+            connection.rollback(); // (4)
+        }
+    }
+
+    private void saveMember(Member member) throws SQLException {
+        PreparedStatement psMember =
+                connection.prepareStatement("INSERT INTO member (email, password) VALUES (?, ?)");
+        psMember.setString(1, member.getEmail());
+        psMember.setString(2, member.getPassword());
+        psMember.executeUpdate();
+    }
+
+    private void savePoint(Point point) throws SQLException {
+        PreparedStatement psPoint =
+                connection.prepareStatement("INSERT INTO point (email, point) VALUES (?, ?)");
+        psPoint.setString(1, point.getEmail());
+        psPoint.setInt(2, point.getPoint());
+        psPoint.executeUpdate();
+    }
+}
+```
+위 코드는 `트랜잭션 기능에 대해 AOP가 적용되지 않은 예시`다. Java의 JDBC API를 사용했는데, API 기능을 이해하려 하지 말고 코드의 흐름에만 집중하자. 
+
+> 트랜잭션(transaction)이란 '데이터를 처리하는 하나의 작업 단위'를 의미한다. 예를 들어 데이터베이스에 A 데이터와 B 데이터를 각각 insert하는 작업을 하나의 트랜잭션으로 묶는다면, A 데이터와 B 데이터는 모두 데이터베이스에 저장되던가 아니면 둘 중 하나라도 오류로 인해 저장되지 않는다면, A, B 데이터는 모두 데이터베이스에 반영되지 않아야 한다.(All or Nothing)
+> 
+> 이러한 처리를 위해 트랜잭션에는 커밋(commit)과 롤백(rollback)이라는 기능이 있다.
+>
+> 커밋은 트랜잭션의 모든 작업들이 성공적으로 수행되었을 때 수행한 작업들을 데이터베이스에 반영하는 것이고, 반대로 롤백은 작업이 하나라도 실패한다면 작업 수행 이전의 상태로 되돌리는 것을 말한다.  
+
+위 코드의 `registerMember 메서드`는 커피 주문 애플리케이션을 사용할 회원 정보를 등록하는 기능을 한다. 메서드 내에서 비즈니스 로직을 수행하는 코드는 회원 정보를 저장하는 (2)의 `saveMember()`와 회원의 포인트 정보를 저장하는 `savePoint()`다.
+이외에 `(1)의 connection.setAutoCommit(false)`와 `(3) connection.commit()`, `(4) connection.rollback()`은 saveMember()와 savePoint() 작업을 하나의 트랜잭션으로 묶어서 처리하기 위한 기능들이다.
+문제는 이러한 트랜잭션 처리 코드들이 애플리케이션의 다른 기능에도 반복적으로 나타난다는 것이다. 이럴 때 `AOP를 통해서 중복된 코드를 공통화하여 재사용할 수 있도록 만들어야 한다.`
+
+그런데 Spring에서는 이미 이러한 트랜잭션 처리 기능을 AOP를 통해서 공통화해준다.
+
+```
+@Component
+@Transactional // (1)
+public class Example {
+    private Connection connection;
+
+    public void registerMember(Member member, Point point) throws SQLException {
+        saveMember(member);
+        savePoint(point);
+    }
+
+    private void saveMember(Member member) throws SQLException {
+        // Spring JDBC를 이용한 회원 정보 저장
+    }
+
+    private void savePoint(Point point) throws SQLException {
+        // Spring JDBC를 이용한 포인트 정보 저장
+    }
+}
+```
+위 코드는 Spring의 AOP 기능을 이용하여 registerMember()에 트랜잭션을 적용한 예시다. 이를 통해 순수하게 비즈니스 로직만을 처리하기 위한 saveMember(member)와 savePoint(point)만 남게 되었다.
+
+그렇다면 트랜잭션 처리는 어떻게 한 것일까?  
+(1)의 @Transactional 애노테이션 하나만 붙이면 Spring 내부에서 이 애노테이션을 활용하여 AOP 기능을 통해 트랜잭션을 적용한다.
+
+결론적으로, 이처럼 AOP를 활용하면 `애플리케이션 전반에 걸쳐 적용되는 공통 기능 등을 비즈니스 로직에서 깔끔하게 분리하여 재사용 가능한 모듈로 사용`할 수 있다. 
 
 <br>
 
