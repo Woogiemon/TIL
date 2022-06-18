@@ -172,8 +172,34 @@ Java에서 클래스 간의 관계를 느슨하게 만드는 대표적인 방법
 
 ![img.png](DI6.png)
 
+MenuController 클래스는 생성자로 MenuService 인터페이스를 주입받았기 때문에 MenuService 인터페이스의 구현 클래스이면 어떤 클래스든 주입받을 수 있다.
 
+(1)에서 new 키워드로 MenuServiceStub 클래스의 객체를 생성해서 MenuService 인터페이스에 할당한다. 이처럼 인터페이스 타입의 변수에 그 인터페이스의 구현 객체를 할당할 수 있는데 이를 `업캐스팅(Upcasting)`이라 한다.
+이제 업캐스팅을 통한 의존성 주입으로 인해 MenuController와 MenuService는 `느슨한 결합 관계`를 가진다.
 
+클래스들 간의 관계를 느슨하게 만들기 위해서는 `new 키워드`를 사용하지 않아야 하는데, (1)에서는 MenuService 클래스와 MenuController 클래스의 객체를 만들기 위해서 여전히 new 키워드를 사용했다.
+
+이 new 키워드를 제거하기 위해서 어떻게 해야할까? 이 부분은 `Spring`에서 대신 해준다.
+
+![img.png](img.png)
+
+(1)에 해당하는 코드는 모두 Spring에서 지원하는 API 코드다. 
+
+> Spring Framework에 해당하는 코드가 애플리케이션 코드에 직접적으로 나왔으므로 POJO 프로그래밍의 규칙 중 1번인 '다른 기술이나 규약에 얽매이지 않아야 한다'를 위반한다. 즉, 좋은 개발 방식이 아니다.
+> 위 코드는 Spring을 이용한 DI의 예시를 보여주기 위한 목적으로 쓰였으며, 실제 Spring 기반의 웹 애플리케이션에는 (1)과 같은 코드는 나오지 않는다.
+
+아무튼 (1)의 Spring 코드 덕분에 new 키워드를 없애는데 성공했다. 제일 하단의 Config 클래스를 살펴보면, @Configuration, @ComponentScan, @Bean과 같은 애노테이션(Annotation)들이 보인다. 지금은 각 애노테이션의 의미에 대한 설명은 잠시 접어두고, `Config 클래스의 역할`에 집중하자.
+Config 클래스에서 (3)과 같이 MenuController 객체 생성을 정의해두면 (1)을 이용해서 이 객체를 애플리케이션 코드에서 사용하게 된다.
+즉, `Config 클래스에서 정의해둔 MenuController 객체를 Spring의 도움을 받아서 CafeClient 클래스에 제공하고 있는 것이다.`
+
+하지만 여기서 한가지 걸리는 점이 있다. new 키워드를 없애기 위해서 Config 클래스를 만들었으나, Config 클래스 안에서 new 키워드로 객체를 생성했으므로 결국 마찬가지인게 아닌가 하는 점이다.
+그렇게 볼 수도 있지만, Config 클래스는 단순한 클래스가 아니고 온전하게 Spring Framework의 영역에 해당하는 것이고, `실제 애플리케이션의 핵심 로직에는 관여하지 않고 있다.`
+
+이처럼 Spring 기반의 애플리케이션에서는 Spring이 의존 객체들을 주입해주기 때문에 코드를 유연하게 구성할 수 있다.
+
+앞에서 했던 FE와 BE의 대화를 다시 보자. BE에서 메뉴 목록 조회 기능을 완성했다면, 이제 Stub 데이터 대신에 실제 데이터를 데이터베이스에서 제공해주면 될텐데 이럴 경우 애플리케이션 코드에서 변경할 내용들이 있을까?
+
+(4)와 같이 Spring Framework 영역에 있는 MenuServiceStub 클래스를 MenuServiceImpl 클래스로 `단 한번만` 변경해주면 된다.
 
 <br>
 
