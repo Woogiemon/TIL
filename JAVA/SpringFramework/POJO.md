@@ -222,6 +222,8 @@ AOP에의 Aspect는 `애플리케이션에 필요한 기능 중 공통적으로 
 
 결국, AOP는 `애플리케이션의 핵심 업무 로직에서 벗어나 공통 기능 로직들을 분리하는 것`이라고 생각할 수 있다.
 
+<br>
+
 ### AOP가 필요한 이유
 그렇다면 애플리케이션의 핵심 로직에서 공통 기능을 분리하는 이유가 뭘까?
 - 코드의 간결성 유지
@@ -303,10 +305,224 @@ public class Example {
 위 코드는 Spring의 AOP 기능을 이용하여 registerMember()에 트랜잭션을 적용한 예시다. 이를 통해 순수하게 비즈니스 로직만을 처리하기 위한 saveMember(member)와 savePoint(point)만 남게 되었다.
 
 그렇다면 트랜잭션 처리는 어떻게 한 것일까?  
-(1)의 @Transactional 애노테이션 하나만 붙이면 Spring 내부에서 이 애노테이션을 활용하여 AOP 기능을 통해 트랜잭션을 적용한다.
+(1)의 `@Transactional 애노테이션` 하나만 붙이면 Spring 내부에서 이 애노테이션을 활용하여 AOP 기능을 통해 트랜잭션을 적용한다.
 
 결론적으로, 이처럼 AOP를 활용하면 `애플리케이션 전반에 걸쳐 적용되는 공통 기능 등을 비즈니스 로직에서 깔끔하게 분리하여 재사용 가능한 모듈로 사용`할 수 있다. 
 
 <br>
 
 ## PSA(Portable Service Abstraction)
+
+### 추상화(Abstraction)
+객체지향 프로그래밍에서는 `어떤 클래스의 본질적인 특성만을 추출해서 일반화하는 것`을 추상화(Abstraction)라 한다.
+객체지향 프로그래밍 언어인 Java에서 코드로 추상화를 표현할 수 있는 대표적인 방법에는 `추상 클래스와 인터페이스`가 있다.
+
+예를 들어, 미취학 아동을 관리하는 애플리케이션을 설계하면서 `아이 클래스를 일반화(추상화)`해보자.
+
+Java의 클래스는 속성을 나타내는 멤버 변수와 동작을 나타내는 메서드로 구성되므로, 아이의 속성과 동작을 일반화해서 표현해보자.
+
+```
+public abstract class Child {
+    protected String childType;
+    protected double height;
+    protected double weight;
+    protected String bloodType;
+    protected int age;
+
+    protected abstract void smile();
+
+    protected abstract void cry();
+
+    protected abstract void sleep();
+
+    protected abstract void eat();
+}
+```
+
+```
+// NewBornBaby.java(신생아)
+public class NewBornBaby extends Child {
+    @Override
+    protected void smile() {
+        System.out.println("신생아는 가끔 웃어요");
+    }
+
+    @Override
+    protected void cry() {
+        System.out.println("신생아는 자주 울어요");
+    }
+
+    @Override
+    protected void sleep() {
+        System.out.println("신생아는 거의 하루 종일 자요");
+    }
+
+    @Override
+    protected void eat() {
+        System.out.println("신생아는 분유만 먹어요");
+    }
+}
+
+// Infant.java(2개월 ~ 1살)
+public class Infant extends Child {
+    @Override
+    protected void smile() {
+        System.out.println("영아는 많이 웃어요");
+    }
+
+    @Override
+    protected void cry() {
+        System.out.println("영아는 종종 울어요");
+    }
+
+    @Override
+    protected void sleep() {
+        System.out.println("영아부터는 밤에 잠을 자기 시작해요");
+    }
+
+    @Override
+    protected void eat() {
+        System.out.println("영아부터는 이유식을 시작해요");
+    }
+}
+
+// Toddler.java(1살 ~ 4살)
+public class Toddler extends Child {
+    @Override
+    protected void smile() {
+        System.out.println("유아는 웃길 때 웃어요");
+    }
+
+    @Override
+    protected void cry() {
+        System.out.println("유아는 화가나면 울어요");
+    }
+
+    @Override
+    protected void sleep() {
+        System.out.println("유아는 낮잠을 건너뛰고 밤잠만 자요");
+    }
+
+    @Override
+    protected void eat() {
+        System.out.println("유아는 딱딱한 걸 먹기 시작해요");
+    }
+}
+```
+
+아이의 일반적인 특징을 `추상 Child 클래스`로 작성했다. 그리고 Child 클래스를 확장한 하위 클래스인 `NewBornBaby, Infant, Toddler 클래스`는 Child 클래스의 일반적인 동작을 자신만의 고유한 동작으로 `Override `하였다.
+
+그렇다면 각 하위 클래스를 사용하기 위해서 어떤 방식으로 접근하면 될까?
+
+```
+public class ChildManageApplication {
+    public static void main(String[] args) {
+        Child newBornBaby = new NewBornBaby(); // (1)
+        Child infant = new Infant(); // (2)
+        Child toddler = new Toddler(); // (3)
+
+        newBornBaby.sleep();
+        infant.sleep();
+        toddler.sleep();
+    }
+}
+
+실행 결과
+=========================================
+신생아는 거의 하루 종일 자요
+영아부터는 밤에 잠을 자기 시작해요
+유아는 낮잠을 건너뛰고 밤잠만 자요
+```
+위 코드에서는 Child 라는 상위 클래스에 일반화 시켜놓은 아이의 동작을 `NewBornBaby`, `Infant`, `Toddler`라는 클래스로 연령별 아이의 동작으로 구체화시켜서 사용한다.
+
+주목해야할 점은, 클라이언트(여기서는 ChildManageApplication 클래스의 main() 메서드)는 `NewBornBaby`, `Infant`, `Toddler`를 사용할 때, 구체화 클래스의 객체를 자신의 타입에 할당하지 않고, (1) ~ (3)과 같이 Child 클래스 변수에 할당해서 접근한다.
+
+이처럼 클라이언트가 **추상화된 상위 클래스(여기서는 Child 클래스)만 일관되게 바라보며 하위 클래스의 기능을 사용하는 것이 바로 일관된 서비스 추상화(PSA)의 기본 개념**이다.
+
+> 일반적으로 서버 / 클라이언트 측면에서 서버 측 기능을 이용하는 을 클라이언트라고 한다. (ex. 웹 브라우저)  
+> 그런데 코드레벨에서는 어떤 클래스의 기능을 이용하는 쪽 역시 클라이언트라고 한다.
+
+<br>
+
+### 일관된 서비스 추상화(PSA) 기법
+서비스 추상화란 위와 같은 `추상화 개념을 애플리케이션에서 사용하는 서비스에 적용하는 기법`이다.
+
+![img.png](png/PSA1.png)
+
+위 그림은 Java 콘솔 애플리케이션에서 클라이언트가 데이터베이스에 연결하기 위해 `JdbcConnector`를 사용하기 위한 PSA의 예시다.
+
+즉, JdbcConnector가 애플리케이션에서 이용하는 하나의 서비스가 되는 것이다.
+
+`DbClient`는 `OracleJdbcConnector`, `MariaDBJdbcConnector`, `SQLiteJdbcConnector` 같은 JdbcConnector 인터페이스의 구현체에 직접적으로 연결하여 Connection을 얻는 것이 아니라, `JdbcConnector 인터페이스를 통해 간접적으로 연결(느슨한 결합)되어 Connection 객체를 얻었다.`
+또한 DbClient에서 어떤 JdbcConnector 구현체를 이용하더라도 Connection을 얻는 방식은 getConnection() 메서드를 사용해야 하기 때문에 `일관된 방식으로 해당 서비스의 기능을 이용할 수 있다.`
+
+이처럼 애플리케이션에서 특정 서비스를 이용할 때, `서비스의 기능을 접근하는 방식 자체를 일관되게 유지하면서 기술 자체를 유연하게 사용할 수 있도록 하는 것을 PSA(일관된 서비스 추상화)`라 한다.
+
+```
+// DbClient.java
+public class DbClient {
+    public static void main(String[] args) {
+        // Spring DI로 대체 가능
+        JdbcConnector connector = new SQLiteJdbcConnector(); // (1)
+
+        // Spring DI로 대체 가능
+        DataProcessor processor = new DataProcessor(connector); // (2)
+        processor.insert();
+    }
+}
+
+// DataProcessor.java
+public class DataProcessor {
+    private Connection connection;
+
+    public DataProcessor(JdbcConnector connector) {
+        this.connection = connector.getConnection();
+    }
+
+    public void insert() {
+        // 실제로는 connection 객체를 이용해서 데이터를 insert 할 수 있다.
+        System.out.println("inserted data");
+    }
+}
+
+// JdbcConnector.java
+public interface JdbcConnector {
+    Connection getConnection();
+}
+
+// MariaDBJdbcConnector.java
+public class MariaDBJdbcConnector implements JdbcConnector {
+    @Override
+    public Connection getConnection() {
+        return null;
+    }
+}
+
+// OracleJdbcConnector.java
+public class OracleJdbcConnector implements JdbcConnector {
+    @Override
+    public Connection getConnection() {
+        return null;
+    }
+}
+
+// SQLiteJdbcConnector.java
+public class SQLiteJdbcConnector implements JdbcConnector {
+    @Override
+    public Connection getConnection() {
+        return null;
+    }
+}
+```
+위 클래스 다이어그램을 기반으로 JdbcConnector 서비스를 사용하는 코드를 작성해보았다.
+
+먼저 DbClient 클래스를 보자. `(1)`에서 SQLiteJdbcConnector의 객체를 생성하여 JdbcConnector 인터페이스 타입의 변수에 할당(`업캐스팅`)하고 있다.
+그리고 `(2)`에서 실제로 데이터를 데이터베이스에 저장하는 기능을 하는 DataProcessor 클래스의 생성자로 JdbcConnector 객체를 전달(`의존성 주입`)하고 있다.
+
+만약 다른 애플리케이션에서 SQLite 데이터베이스를 Oracle 데이터베이스로 바꾸고 싶다면, JdbcConnector 서비스 모듈을 그대로 가져와서 `(1)new SQLiteJdbcConnector()`를 `new OracleJdbcConnector()`로 바꿔서 사용하면 된다.
+
+### PSA가 필요한 이유
+`환경의 변화와 세부기술의 변경과 관계없이 일관된 방식으로 기술에 접근할 수 있도록 하기 위함`이다.
+즉, PSA를 통해서 애플리케이션의 요구사항에 유연하게 대처할 수 있다.
+
+Spring에서 PSA가 적용된 분야로는 트랜잭션 서비스, 메일 서비스, Spring Data 서비스 등이 있다.
