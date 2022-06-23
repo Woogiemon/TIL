@@ -17,7 +17,7 @@ ___
 
 
 - 동작 확인 : 기본 메인 클래스 실행(`CoreApplication.main()`)
-- IntelliJ Gradle 대신에 Java 직접 실행
+- IntelliJ Gradle 대신에 Java 직접 실행  
 최근 IntelliJ 버전은 Gradle을 통해 실행하는 것이 기본 설정이다. 이렇게 하면 실행 속도가 느리다. 다음과 같이 변경하면 IntelliJ가 Java를 바로 실행하므로 실행속도가 더 빠르다.
 
 > Build and run using : IntelliJ IDEA  
