@@ -8,7 +8,7 @@ ___
 
 일반적으로 프론트엔드 쪽 웹사이트에서는 `JavaScript`를 이용해서 사용자가 입력하는 입력 폼 필드 값에 대해 1차적으로 유효성 검증을 진행한다.
 
-![img.png](img.png)
+![img.png](png/img.png)
 
 위 그림처럼 잘못된 형식의 이메일 주소를 입력하면 프론트엔드 쪽에서 1차적으로 먼저 유효성 검사를 진행한 후에 사용자에게 이를 알려준다. 하지만 프론트엔드 쪽에서 유효성 검사를 통과하였다 하더라도 그 값이 반드시 유효한 값이라고 보장할 수는 없다.
 
@@ -282,7 +282,7 @@ MemberPostDto 클래스에서와 마찬가지로 MemberPatchDto 클래스에서�
 
 이제 `Postman`으로 patchMember() 핸들러 메서드에 요청을 전송해보자.
 
-![](DTO_Validation3.png)
+![](png/DTO_Validation3.png)
 
 name은 공백 문자열을, phone은 유효하지 않은 휴대폰 번호로 입력해서 요청을 전송했다.
 
@@ -316,7 +316,7 @@ public class MemberController {
 ```
 위 코드에서는 `@PathVariable("member-id") long memberId`에 **1 이상의 숫자일 경우에만** 유효성 검증에 통과하도록 `@Min(1)` 이라는 검증 애너테이션을 추가했다. 여기서 끝나지 않고, @PathVariable이 추가된 변수에 유효성 검증이 정상적으로 수행되게 하기 위해서 `(1)`과 같이 클래스 레벨에 `@Validated`를 붙여 주었다.
 
-![](DTO_Validation4.png)
+![](png/DTO_Validation4.png)
 
 위 그림은 patchMember() 핸들러 메서드 요청 URI에 유효하지 않은 숫자인 0을 입력한 후 요청을 전달했고, 그 결과 Response Status가 500인 `Internal Server Error`를 전달받았다.
 `@RequestBody`에 대한 유효성 검증 실패 메시지와 조금 다르기는하지만 어쨌든 유효성 검증은 정상적으로 이루어졌다.
