@@ -47,6 +47,8 @@ Spring Boot 기반의 애플리케이션에서 주로 사용되는 Java 패키�
 ### 계층 기반 패키지 구조(package-by-layer)
 패키지를 하나의 계층(Layer)로 보고 클래스들을 계층별로 묶어서 관리하는 구조다.
 
+
+
 ![img_2.png](png/Controller3.png)
 
 위 그림에서 ‘controller, dto’ 패키지는 `API 계층`에 해당되고, ‘model, service’ 패키지는 `비즈니스 계층`에 해당되며, repository는 `데이터 액세스 계층`에 해당된다.
